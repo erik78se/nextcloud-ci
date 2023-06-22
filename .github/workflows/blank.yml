@@ -19,6 +19,7 @@ jobs:
           newgrp lxd        
           sudo lxd init --auto
           sudo lxc network set lxdbr0 ipv6.address none
+          sudo lxc profile set default security.ipv6_filtering false
           sudo systemctl restart snap.lxd.daemon
           sudo chmod a+wr /var/snap/lxd/common/lxd/unix.socket
 

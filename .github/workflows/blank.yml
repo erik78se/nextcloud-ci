@@ -20,7 +20,7 @@ jobs:
 
       - name: Bootstrap Juju
         run: |
-          juju bootstrap
+          juju bootstrap localhost
 
       - name: Deploy PostgreSQL
         run: |

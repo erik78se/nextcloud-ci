@@ -18,7 +18,8 @@ jobs:
           sudo adduser $USER lxd
           newgrp lxd        
           sudo lxd init --auto
-          sudo lxc network set lxdbr0 ipv6.address none        
+          sudo lxc network set lxdbr0 ipv6.address none
+          sudo systemctl restart snap.lxd.daemon
           sudo chmod a+wr /var/snap/lxd/common/lxd/unix.socket
 
       - name: Install Juju
@@ -41,3 +42,16 @@ jobs:
       - name: Relate Nextcloud and PostgreSQL
         run: |
           juju relate nextcloud:database postgresql
+
+      - name: Wait for Nextcloud status to become active
+        run: |
+          for i in {1..30}; do
+            status=$(juju status --format=json | jq -r '.applications.nextcloud.status.current')
+            if [[ "$status" == "active" ]]; then
+              echo "Nextcloud deployment is active!"
+              exit 0
+            fi
+            sleep 10
+          done
+          echo "Nextcloud deployment did not become active within 5 minutes."
+          exit 1

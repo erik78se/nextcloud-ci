@@ -13,8 +13,9 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-
-      - name: Setup operator environment (with lxd)
+      # Use Canonical github actions that setup Juju for us with lxd.
+      # https://github.com/charmed-kubernetes/actions-operator
+      - name: Setup Juju operator environment (with lxd)  
         uses: charmed-kubernetes/actions-operator@main
         with:
           provider: lxd

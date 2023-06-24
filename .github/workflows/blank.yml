@@ -37,10 +37,10 @@ jobs:
           for i in {1..120}; do
             jq_status=$(juju status --format=json | jq -r '.applications.nextcloud."application-status"')
             current_status=$(echo "$jq_status" | jq -r '.current')
-            if [[ "$status" == "active" ]]; then
+            if [[ "$current_status" == "active" ]]; then
               echo "Nextcloud deployment is active!"
               exit 0
-            elif [[ "$status" == "error" ]]; then
+            elif [[ "$current_status" == "error" ]]; then
               echo "Deployment failed. Error logs:"
               juju debug-log --replay | tee debug.log
               exit 1

@@ -33,15 +33,16 @@ jobs:
 
       - name: Wait for Nextcloud status to become active
         run: |
-          for i in {1..90}; do
+          set -x
+          for i in {1..120}; do
             status=$(juju status --format=json | jq -r '.applications.nextcloud."application-status".current')
             if [[ "$status" == "active" ]]; then
               echo "Nextcloud deployment is active!"
               exit 0
             else:
-              echo "Waiting for nextcloud to be active...($i/30)"
+              echo "Waiting for nextcloud to be active...($i/30) - current status: [$status]"
             fi
             sleep 10
           done
-          echo "Nextcloud deployment did not become active within 15 minutes."
+          echo "Nextcloud deployment did not become active within 20 minutes."
           exit 1

@@ -1,0 +1,32 @@
+name: Check Nextcloud Deployment
+
+on:
+  workflow_dispatch:
+
+jobs:
+  check_deployment:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Run script
+      run: |
+        set -x
+        for i in {1..30}; do
+          if [[ "$i" -eq 10 ]]; then
+          status="active"
+          else
+          status="pending"
+          fi
+          echo "Checking deployment status..."
+          echo "Current status: $status"
+          if [[ "$status" == "active" ]]; then
+            echo "Nextcloud deployment is active!"
+            exit 0
+          fi
+          sleep 2
+        done
+        echo "Nextcloud deployment did not become active within 5 minutes."
+        exit 1

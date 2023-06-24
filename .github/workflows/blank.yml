@@ -39,7 +39,7 @@ jobs:
             if [[ "$status" == "active" ]]; then
               echo "Nextcloud deployment is active!"
               exit 0
-            else:
+            else
               echo "Waiting for nextcloud to be active...($i/30) - current status: [$status]"
             fi
             sleep 10

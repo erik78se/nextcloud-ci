@@ -40,7 +40,7 @@ jobs:
             if [[ "$status" == "active" ]]; then
               echo "Nextcloud deployment is active!"
               exit 0
-            elif [[ "$status" == "error" ]];
+            elif [[ "$status" == "error" ]]; then
               echo "Deployment failed. Error logs:"
               juju debug-log --replay | tee debug.log
               exit 1
